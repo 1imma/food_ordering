@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User
 
+
+
 # Signup view
 
 def signup(request):
