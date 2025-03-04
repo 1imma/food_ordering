@@ -1,23 +1,18 @@
-{% extends 'base1.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-
-<div class="cont-dash">
-    <div class="left-side">
-        <div class="info">
-            <h2>{{ user.username }}!</h2>
-            <p>Email: {{ user.email }}</p>
-            <p>Phone: {{ user.phone_number|default:"Not provided" }}</p>
-            <p>Address: {{ user.address|default:"Not provided" }}</p>
-        </div>
-        <div class="logs">
+<div class="container mt-5">
+    <div class="card shadow-lg p-4">
+        <h2 class="text-center">Welcome, {{ user.username }}! 🎉</h2>
+        <hr>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ user.phone_number|default:"Not provided" }}</p>
+        <p><strong>Address:</strong> {{ user.address|default:"Not provided" }}</p>
+        
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
             <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
         </div>
-        
-    </div>
-    
-    <div class="container mt-5">
-        <h2>Welcome, {{ user.username }}!</h2>
     </div>
 </div>
 {% endblock %}

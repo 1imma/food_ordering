@@ -72,4 +72,25 @@ def dashboard(request):
     return render(request, 'accounts/dashboard.html',{"user":user})
 
 
+#edit profile view
+
+def edit_profile(request):
+    if 'user_id' not in request.session:
+        messages.error(request, 'You must be logged in!')
+        return redirect('login')
+
+    user = User.objects.get(id=request.session['user_id'])
+
+    if request.method == 'POST':
+        user.phone_number = request.POST.get('phone_number', user.phone_number)
+        user.address = request.POST.get('address', user.address)
+        user.save()
+
+        messages.success(request, "Profile updated successfully!")
+        return redirect('dashboard')
+    
+    return render(request, 'accounts/edit_profile.html', {'user':user})
+
+
+
 

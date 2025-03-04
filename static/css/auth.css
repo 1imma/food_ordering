@@ -19,13 +19,6 @@ body {
 }
 
 
-
-.content {
-    position: relative;
-    z-index: 2;
-}
-
-
 .auth-container {
     max-width: 400px;
     margin: 5% auto;
@@ -61,7 +54,7 @@ body {
     text-align: center;
 }
 
-.cont-dash{
+/*.cont-dash{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -86,3 +79,4 @@ body {
     border-radius: 10px;
     background-color: rgba(0, 60, 255, 0.808);
 }
+*/
