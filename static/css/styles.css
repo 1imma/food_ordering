@@ -1,4 +1,4 @@
-body {
+/*body {
     background: url("../images/food-bg1.jpg") no-repeat center center/cover;
     height: 100vh;
     display: flex;
@@ -6,7 +6,8 @@ body {
     justify-content: center;
     color: white;
     text-align: center;
-}
+}*/
+
 
 .overlay {
     background: rgba(0, 0, 0, 0.6);
@@ -17,9 +18,36 @@ body {
     height: 100%;
 }
 
+/*
 .content {
     position: relative;
     z-index: 2;
+}*/
+
+.video-background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.content {
+    position: relative; /* Ensure content is above the video */
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    top: 10rem;
 }
 
 .lo{
