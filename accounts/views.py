@@ -26,3 +26,22 @@ def signup(request):
     return render(request, 'accounts/signup.html')
 
 
+#login view
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        try:
+            user = User.objects.get(username=username, password=password)
+            request.session['user_id'] = user.id
+            messages.success('login successfully')
+            return redirect('dashboard')
+        except User.DoesNotExist:
+            messages.error('Invalid Username or Password')
+            return redirect('login')
+        
+    return render(request, 'accounts/login.html')
+
+
