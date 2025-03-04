@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User
+import hashlib
 
 
 
@@ -10,20 +11,27 @@ def signup(request):
     if request.method == 'POST':
         username = request.POST['username']
         email = request.POST['email']
-        password = request.POST['password']
+        password = request.POST['password1']
+        confirm_password = request.POST['password2']
 
-        if User.objects.filter(username=username).exists:
-            messages.error('Username taken')
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match!")
+            return redirect('signup')
+
+        if User.objects.filter(username=username).exists() or User.objects.filter(email=email).exists():
+            messages.error(request,'Username or Email taken')
             return redirect('signup')
         
-        if User.objects.filter(email=email).exists:
+        """if User.objects.filter(email=email).exists:
             messages.error('Email is registered')
-            return redirect('signup')
+            return redirect('signup')"""
 
-        user = User(username=username, email=email, password=password)
+        # Hash the password before storing
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+        user = User(username=username, email=email, password=hashed_password)
         user.save()
 
-        messages.success('Created Account Successfully, please login')
+        messages.success(request, 'Created Account Successfully, please login')
         return redirect('login')
     return render(request, 'accounts/signup.html')
 
@@ -34,16 +42,34 @@ def login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
         try:
-            user = User.objects.get(username=username, password=password)
-            request.session['user_id'] = user.id
-            messages.success('login successfully')
+            user = User.objects.get(username=username, password=hashed_password)
+            request.session['user_id'] = user.id #save the session
+            messages.success(request,'login successfully')
             return redirect('dashboard')
         except User.DoesNotExist:
-            messages.error('Invalid Username or Password')
+            messages.error(request,'Invalid Username or Password')
             return redirect('login')
         
     return render(request, 'accounts/login.html')
+
+#logout view
+
+def logout(request):
+    request.session.flush()  # Clear session
+    messages.success(request, "Logged out successfully!")
+    return redirect('login')
+
+#dashboard view
+
+def dashboard(request):
+    if 'user_id' not in request.session:
+        messages.error(request, 'You must be logged in to access the dashboard!')
+        return redirect('login')
+    user = User.objects.get(id=request.session['user_id'])
+    return render(request, 'accounts/dashboard.html',{"user":user})
+
 
 
