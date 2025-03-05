@@ -1,9 +1,23 @@
 from django.shortcuts import render, redirect
+from django.core.files.storage import default_storage
+from django.conf import settings
 from django.contrib import messages
+from functools import wraps
 from .models import User
 import hashlib
+import os
 
 
+
+
+def login_required(view_func):
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if 'user_id' not in request.session:
+            messages.error(request, "You must be logged in!")
+            return redirect('login')
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 # Signup view
 
@@ -63,7 +77,7 @@ def logout(request):
     return redirect('login')
 
 #dashboard view
-
+@login_required
 def dashboard(request):
     if 'user_id' not in request.session:
         messages.error(request, 'You must be logged in to access the dashboard!')
@@ -73,7 +87,7 @@ def dashboard(request):
 
 
 #edit profile view
-
+@login_required
 def edit_profile(request):
     if 'user_id' not in request.session:
         messages.error(request, 'You must be logged in!')
@@ -84,12 +98,27 @@ def edit_profile(request):
     if request.method == 'POST':
         user.phone_number = request.POST.get('phone_number', user.phone_number)
         user.address = request.POST.get('address', user.address)
+
+        # Handle profile picture upload
+        if 'profile_picture' in request.FILES:
+            profile_picture = request.FILES['profile_picture']
+            
+            # Delete old profile picture (except default.jpg)
+            if user.profile_picture and user.profile_picture.name != 'default.jpg':
+                old_path = os.path.join(settings.MEDIA_ROOT, str(user.profile_picture))
+                if os.path.exists(old_path):
+                    os.remove(old_path)
+
+            user.profile_picture = profile_picture
+
         user.save()
 
         messages.success(request, "Profile updated successfully!")
         return redirect('dashboard')
     
     return render(request, 'accounts/edit_profile.html', {'user':user})
+
+
 
 
 
