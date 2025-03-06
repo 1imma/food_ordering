@@ -3,7 +3,7 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from django.contrib import messages
 from functools import wraps
-from .models import User
+from .models import User, MenuItem
 import hashlib
 import os
 
@@ -83,7 +83,8 @@ def dashboard(request):
         messages.error(request, 'You must be logged in to access the dashboard!')
         return redirect('login')
     user = User.objects.get(id=request.session['user_id'])
-    return render(request, 'accounts/dashboard.html',{"user":user})
+    menu_items = MenuItem.objects.all()
+    return render(request, 'accounts/dashboard.html',{"user":user, "menu_items": menu_items})
 
 
 #edit profile view

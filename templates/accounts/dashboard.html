@@ -1,4 +1,4 @@
-{% extends 'base1.html' %}
+{% extends 'base2.html' %}
 
 {% block content %}
     <div class="container mt-5">
@@ -6,7 +6,7 @@
         <hr>
 
         <div class="row">
-            <!-- User Info Card -->
+            <!-- User Info Card-->
             <div class="col-md-4">
                 <div class="card p-3 shadow-lg">
                     <div class="text-center">
@@ -22,7 +22,7 @@
 
             <!-- Quick Links -->
             <div class="col-md-8">
-                <div class="card p-3 shadow-lg">
+                <div class="card p-6 shadow-lg">
                     <h5>Quick Actions</h5>
                     <ul class="list-group">
                         <li class="list-group-item"><a href="#">📦 View My Orders</a></li>
@@ -34,15 +34,37 @@
         </div>
     </div>
 
-<!--<div class="profile-section" style="position: fixed; bottom: 20px; left: 20px;">
-    <div class="card p-3 shadow-lg" style="width: 200px; text-align: center;">
-        {% if user.profile_picture %}
-            <img src="{{ user.profile_picture.url }}" class="rounded-circle" width="80" height="80">
-        {% else %}
-            <img src="{{ MEDIA_URL }}default.jpg" class="rounded-circle" width="80" height="80">
-        {% endif %}
-        <p class="mt-2"><strong>{{ user.username }}</strong></p>
-        <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+    <div class="container mt-4">
+        <h3 class="text-center">Food Menu</h3>
+        <div class="row">
+            {% for item in menu_items %}
+            <div class="col-md-4">
+                <div class="card mb-3 shadow">
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
+                        <a href="#" class="btn btn-primary">Order Now</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No menu items available.</p>
+            {% endfor %}
+        </div>
     </div>
-</div>-->
+    
+
+    <!--<div class="profile-section" style="position: fixed; top: 20px; right: 20px;">
+        <div class="card p-3 shadow-lg" style="width: 100px; text-align: center;">
+            {% if user.profile_picture %}
+                <img src="{{ user.profile_picture.url }}" class="rounded-circle" width="80" height="80">
+            {% else %}
+                <img src="{{ MEDIA_URL }}default.jpg" class="rounded-circle" width="80" height="80">
+            {% endif %}
+            <p class="mt-2"><strong>{{ user.username }}</strong></p>
+            <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+        </div>
+    </div>-->
 {% endblock %}
