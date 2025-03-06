@@ -9,7 +9,7 @@ class User(models.Model):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     is_admin = models.BooleanField(default=False)
-    profile_picture = models.ImageField(upload_to='profile_pics/', default='images/default.png')
+    profile_picture = models.ImageField(upload_to='profile_pics/', default='default.png')
 
     def __str__(self):
         return self.username

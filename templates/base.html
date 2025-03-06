@@ -16,10 +16,8 @@
         <div>
             <!-- Logo -->
             <a href="/" class="">
-                <img src="{% static 'images/main-logo.png' %}" alt="Food Ordering Logo" style="height: 50px;">
-            </a>
-        </div> 
-                      
+                <img src="{% static 'images/log2.png' %}" alt="Food Ordering Logo" style="height: 50px;"></a>
+        </div>               
         <div>
             {% if request.session.user_id %}
             <a href="{% url 'dashboard' %}" class="btn btn-success">Dashboard</a>

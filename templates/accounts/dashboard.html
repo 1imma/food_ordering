@@ -1,18 +1,48 @@
-{% extends 'base.html' %}
+{% extends 'base1.html' %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="card shadow-lg p-4">
-        <h2 class="text-center">Welcome, {{ user.username }}! 🎉</h2>
+    <div class="container mt-5">
+        <h2>Welcome, {{ user.username }}! 👋</h2>
         <hr>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Phone:</strong> {{ user.phone_number|default:"Not provided" }}</p>
-        <p><strong>Address:</strong> {{ user.address|default:"Not provided" }}</p>
-        
-        <div class="d-flex justify-content-between">
-            <a href="{% url 'edit_profile' %}" class="btn btn-warning">Edit Profile</a>
-            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+
+        <div class="row">
+            <!-- User Info Card -->
+            <div class="col-md-4">
+                <div class="card p-3 shadow-lg">
+                    <div class="text-center">
+                        <img src="{{ user.profile_picture.url }}" class="rounded-circle" width="100" height="100">
+                        <h4 class="mt-2">{{ user.username }}</h4>
+                    </div>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Phone:</strong> {{ user.phone_number }}</p>
+                    <p><strong>Address:</strong> {{ user.address }}</p>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-sm">Edit Profile</a>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-8">
+                <div class="card p-3 shadow-lg">
+                    <h5>Quick Actions</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><a href="#">📦 View My Orders</a></li>
+                        <li class="list-group-item"><a href="{% url 'edit_profile' %}">⚙️ Account Settings</a></li>
+                        <li class="list-group-item"><a href="{% url 'logout' %}" class="text-danger">🚪 Logout</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
+<!--<div class="profile-section" style="position: fixed; bottom: 20px; left: 20px;">
+    <div class="card p-3 shadow-lg" style="width: 200px; text-align: center;">
+        {% if user.profile_picture %}
+            <img src="{{ user.profile_picture.url }}" class="rounded-circle" width="80" height="80">
+        {% else %}
+            <img src="{{ MEDIA_URL }}default.jpg" class="rounded-circle" width="80" height="80">
+        {% endif %}
+        <p class="mt-2"><strong>{{ user.username }}</strong></p>
+        <a href="{% url 'edit_profile' %}" class="btn btn-sm btn-outline-primary">Edit Profile</a>
+    </div>
+</div>-->
 {% endblock %}
