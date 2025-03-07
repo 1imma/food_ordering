@@ -3,7 +3,8 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from django.contrib import messages
 from functools import wraps
-from .models import User, MenuItem
+from menu.models import MenuItem
+from .models import User
 import hashlib
 import os
 
