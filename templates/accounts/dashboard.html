@@ -33,27 +33,32 @@
             </div>
         </div>
     </div>
+    <a href="{% url 'menu' %}" class="btn btn-primary">View Full Menu</a>
+    <a href="{% url 'order_tracking' %}" class="btn btn-primary">Track My Orders</a>
 
-    <div class="container mt-4">
-        <h3 class="text-center">Food Menu</h3>
+
+
+    <div class="container mt-5">
+        <h2 class="text-center">Recommended Menu Items</h2>
         <div class="row">
             {% for item in menu_items %}
             <div class="col-md-4">
-                <div class="card mb-3 shadow">
+                <div class="card p-3 shadow">
                     <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         <h5 class="card-title">{{ item.name }}</h5>
-                        <p class="card-text">{{ item.description }}</p>
-                        <p class="card-text"><strong>Price:</strong> ${{ item.price }}</p>
-                        <a href="#" class="btn btn-primary">Order Now</a>
+                        <p class="card-text">${{ item.price }}</p>
+                        <form method="post" action="{% url 'add_to_cart' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-primary">Add to Cart</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            {% empty %}
-            <p class="text-center">No menu items available.</p>
             {% endfor %}
         </div>
     </div>
+    
     
 
     <!--<div class="profile-section" style="position: fixed; top: 20px; right: 20px;">

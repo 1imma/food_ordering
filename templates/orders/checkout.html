@@ -1,0 +1,18 @@
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label class="form-label">Delivery Address</label>
+        <textarea name="address" class="form-control" required></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Payment Method</label>
+        <select name="payment_method" class="form-control" required>
+            <option value="cash">Cash on Delivery</option>
+            <option value="card">Credit/Debit Card</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success w-100">Confirm Order</button>
+</form>

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">My Orders</h2>
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Total Price</th>
+                <th>Status</th>
+                <th>Created At</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>${{ order.total_price }}</td>
+                <td>
+                    <span class="badge 
+                        {% if order.status == 'pending' %} bg-warning
+                        {% elif order.status == 'in_progress' %} bg-primary
+                        {% else %} bg-success {% endif %}">
+                        {{ order.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ order.created_at|date:"F j, Y, g:i a" }}</td>
+                <td><a href="#" class="btn btn-info btn-sm">View</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">No orders found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
